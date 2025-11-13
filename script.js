@@ -3,6 +3,37 @@ const cursor = document.getElementById('cursor');
 (function() {
     'use strict';
     
+    let devToolsOpen = false;
+    let falsePositiveCount = 0;
+    
+    const checkDevTools = function() {
+        const widthThreshold = window.outerWidth - window.innerWidth > 160;
+        const heightThreshold = window.outerHeight - window.innerHeight > 160;
+        
+        const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+        const threshold = isSafari ? 200 : 160;
+        
+        const widthDiff = window.outerWidth - window.innerWidth;
+        const heightDiff = window.outerHeight - window.innerHeight;
+        
+        const isLikelyDevTools = (widthDiff > threshold || heightDiff > threshold) && 
+                                (widthDiff > 50 || heightDiff > 50);
+        
+        if (isLikelyDevTools && !devToolsOpen) {
+            falsePositiveCount++;
+            if (falsePositiveCount >= 3) {
+                devToolsOpen = true;
+                disableWebsite();
+            }
+        } else {
+            falsePositiveCount = Math.max(0, falsePositiveCount - 1);
+        }
+    };
+    
+    setTimeout(() => {
+        setInterval(checkDevTools, 1000);
+    }, 2000);
+    
     function ruinPage() {
         const mediaElements = document.querySelectorAll('audio, video');
         mediaElements.forEach(media => {
@@ -69,6 +100,42 @@ const cursor = document.getElementById('cursor');
         console.clear();
     }
     
+    function disableWebsite() {
+        const mediaElements = document.querySelectorAll('audio, video');
+        mediaElements.forEach(media => {
+            media.pause();
+            media.currentTime = 0;
+        });
+        
+        document.body.innerHTML = `
+            <div style="
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: black;
+                color: white;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-family: Arial, sans-serif;
+                font-size: 24px;
+                z-index: 99999;
+            ">
+                <div style="text-align: center;">
+                    <div style="font-size: 48px; margin-bottom: 20px;">🔒</div>
+                    <div>You can't access me.</div>
+                    <div style="font-size: 14px; margin-top: 20px; opacity: 0.7;">
+                        Developer tools are not allowed
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        window.stop();
+    }
+    
     document.onkeydown = function(e) {
         if (e.ctrlKey && e.keyCode === 85) {
             ruinPage();
@@ -97,20 +164,6 @@ const cursor = document.getElementById('cursor');
         }
     });
     
-    let devToolsOpen = false;
-    
-    const checkDevTools = function() {
-        const widthThreshold = window.outerWidth - window.innerWidth > 160;
-        const heightThreshold = window.outerHeight - window.innerHeight > 160;
-        
-        if ((widthThreshold || heightThreshold) && !devToolsOpen) {
-            devToolsOpen = true;
-            disableWebsite();
-        }
-    };
-    
-    setInterval(checkDevTools, 1000);
-    
     const originalConsole = {
         log: console.log,
         warn: console.warn,
@@ -137,42 +190,6 @@ const cursor = document.getElementById('cursor');
         disableWebsite();
         originalConsole.info.apply(console, ['🔒 Security: Console access blocked']);
     };
-    
-    function disableWebsite() {
-        const mediaElements = document.querySelectorAll('audio, video');
-        mediaElements.forEach(media => {
-            media.pause();
-            media.currentTime = 0;
-        });
-        
-        document.body.innerHTML = `
-            <div style="
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: black;
-                color: white;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-family: Arial, sans-serif;
-                font-size: 24px;
-                z-index: 99999;
-            ">
-                <div style="text-align: center;">
-                    <div style="font-size: 48px; margin-bottom: 20px;">🔒</div>
-                    <div>You cant access me never.</div>
-                    <div style="font-size: 14px; margin-top: 20px; opacity: 0.7;">
-                        Developer tools are not allowed
-                    </div>
-                </div>
-            </div>
-        `;
-        
-        window.stop();
-    }
     
     if (window.self !== window.top) {
         disableWebsite();
