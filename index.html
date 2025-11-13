@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>@culprit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:ital,wght@0,700&family=Lexend:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/roblox.svg">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Custom cursor -->
+<div class="custom-cursor" id="cursor"></div>
+
+<!-- Click To Enter -->
+<div class="enter-screen" id="enterScreen">
+  <div class="enter-text" id="enterBtn">CLICK TO ENTER</div>
+</div>
+
+<!-- Background -->
+<div class="bg-wrap" aria-hidden="true">
+  <img src="" alt="background">
+  <div class="bg-blur"></div>
+  <div class="gray-overlay"></div>
+</div>
+<div class="bloom" aria-hidden="true"></div>
+
+<main class="stage">
+  <article class="card" id="card">
+    <div class="pfp-wrap"><img class="pfp" src="profile.png"></div>
+    <h1 class="name">Savior</h1>
+    
+    <!-- Discord Presence -->
+    <div class="discord-presence" id="discordPresence">
+      <div class="presence-status">
+        <div class="status-dot status-offline" id="statusDot"></div>
+        <span id="statusText">Loading Discord status...</span>
+      </div>
+      <div class="activity" id="activityContainer">
+        <div class="no-activity">No activity</div>
+      </div>
+    </div>
+    
+    <div class="links">
+      <a class="link" href="https://discord.gg/ashburns" target="_blank">
+        <i class="fab fa-discord"></i>
+      </a>
+      <a class="link" href="https://www.instagram.com/joydeyn/" target="_blank">
+        <i class="fab fa-instagram"></i>
+      </a>
+      <a class="link" href="https://www.roblox.com/users/7849228719/profile" target="_blank">
+        <i class="icons8-roblox"></i>
+      </a>
+      <a class="link" href="https://tiktok.com/@netgrave/" target="_blank">
+        <i class="fab fa-tiktok"></i>
+      </a>
+    </div>
+  </article>
+</main>
+
+<!-- Music -->
+<audio id="bgMusic" preload="auto">
+  <source src="whatham.mp3" type="audio/mpeg">
+</audio>
+
+<script src="script.js"></script>
+</body>
+</html>

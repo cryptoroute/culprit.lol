@@ -1,0 +1,290 @@
+:root{
+  --card-w: 380px;
+  --accent: #ffffff;
+  --white-glow: 0 6px 30px rgba(255, 255, 255, 0.18);
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:Lexend,system-ui,Arial;background:#000000;overflow:hidden;cursor: none;}
+
+.custom-cursor {
+  position: fixed;
+  width: 12px;
+  height: 12px;
+  background-color: white;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference;
+  transition: transform 0.1s ease;
+}
+
+.enter-screen{
+  position:fixed;inset:0;
+  background:#000000;
+  display:flex;align-items:center;justify-content:center;
+  z-index:999;
+  transition:opacity 1s ease;
+  cursor: none;
+}
+.enter-text{
+  color:white;
+  font-family:'UnifrakturCook',serif;
+  font-size:38px;
+  letter-spacing:2px;
+  text-shadow:0 0 18px rgba(255,255,255,0.7);
+  cursor:pointer;
+  user-select:none;
+  transition:transform .2s ease;
+}
+.enter-text:hover{transform:scale(1.05);}
+.fade-out{opacity:0;pointer-events:none;}
+
+.bg-wrap{position:fixed;inset:0;overflow:hidden;z-index:0}
+.bg-wrap img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.06);}
+.bg-blur{position:absolute;inset:0;filter:blur(6px) saturate(120%) grayscale(100%);opacity:0.95}
+.gray-overlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(255,255,255,0.12), rgba(0,0,0,0.4));mix-blend-mode:screen}
+
+.bloom{position:fixed;inset:0;pointer-events:none;z-index:1;filter:blur(36px) contrast(120%);opacity:0.9}
+.bloom::after{content:"";position:absolute;left:50%;top:-10%;width:900px;height:400px;background:radial-gradient(circle at 20% 30%, rgba(255,255,255,0.18), transparent 20%), radial-gradient(circle at 80% 70%, rgba(200,200,200,0.1), transparent 20%);transform:translateX(-50%)}
+
+.stage{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px;z-index:2}
+
+.card{
+  width:var(--card-w);
+  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius:20px;
+  padding:20px;
+  border:1px solid rgba(255,255,255,0.04);
+  box-shadow:var(--white-glow);
+  backdrop-filter:blur(6px) saturate(120%);
+  position:relative;overflow:hidden;
+  opacity:0;transform:translateY(20px);
+  transition:opacity 1s ease, transform 1s ease;
+}
+.card.show{opacity:1;transform:translateY(0);}
+
+.pfp-wrap{
+  width:120px;height:120px;border-radius:999px;margin:6px auto;display:flex;align-items:center;justify-content:center;
+  position:relative;
+}
+.pfp{width:110px;height:110px;border-radius:999px;object-fit:cover;border:3px solid rgba(255,255,255,0.08);box-shadow:0 8px 30px rgba(255,255,255,0.18);}
+
+.name{
+  font-family:'UnifrakturCook',serif;font-size:36px;text-align:center;color:#fff;
+  text-shadow:0 0 6px #ffffff,0 0 12px #ffffff,0 0 18px #ffffff,0 0 24px #ffffff;
+  margin-top:8px;
+  animation: glow 2s ease-in-out infinite alternate;
+}
+@keyframes glow{
+  0%{text-shadow:0 0 6px #ffffff,0 0 12px #ffffff,0 0 18px #ffffff,0 0 24px #ffffff;}
+  100%{text-shadow:0 0 12px #ffffff,0 0 24px #ffffff,0 0 36px #ffffff,0 0 48px #ffffff;}
+}
+
+.discord-presence {
+  margin: 20px 0;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  text-align: center;
+  color: white;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.discord-presence:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.presence-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.status-online {
+  background-color: #3ba55c;
+}
+
+.status-idle {
+  background-color: #faa81a;
+}
+
+.status-dnd {
+  background-color: #ed4245;
+}
+
+.status-offline {
+  background-color: #747f8d;
+}
+
+.activity {
+  margin-top: 8px;
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.activity-name {
+  font-weight: 600;
+}
+
+.activity-details {
+  margin-top: 4px;
+  opacity: 0.7;
+}
+
+.spotify-activity {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  padding: 8px;
+  background: rgba(30, 215, 96, 0.1);
+  border-radius: 8px;
+  border-left: 3px solid #1ed760;
+}
+
+.spotify-icon {
+  color: #1ed760;
+  margin-right: 8px;
+  font-size: 16px;
+}
+
+.spotify-info {
+  flex: 1;
+  text-align: left;
+}
+
+.spotify-song {
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.spotify-artist {
+  font-size: 11px;
+  opacity: 0.8;
+  margin-top: 2px;
+}
+
+.no-activity {
+  opacity: 0.7;
+  font-style: italic;
+}
+
+.links{display:flex;gap:20px;justify-content:center;margin-top:20px;}
+.link{
+  width:54px;
+  height:54px;
+  border-radius:12px;
+  background:rgba(255,255,255,0.02);
+  color:#fff;
+  text-decoration:none;
+  font-size:24px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:all 0.3s ease;
+  position:relative;
+  overflow:hidden;
+}
+
+.link::before {
+  content:"";
+  position:absolute;
+  top:0;
+  left:-100%;
+  width:100%;
+  height:100%;
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  transition:left 0.5s ease;
+}
+
+.link:hover::before {
+  left:100%;
+}
+
+.link:hover {
+  transform:translateY(-3px);
+  background:rgba(255,255,255,0.05);
+  box-shadow:0 8px 20px rgba(255,255,255,0.15);
+}
+
+.snowflake {
+  position: fixed;
+  top: -10px;
+  width: 6px;
+  height: 6px;
+  background: rgba(255,255,255,0.8);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10;
+  animation: fall linear infinite;
+}
+@keyframes fall { to {transform: translateY(110vh) translateX(10px);} }
+
+.mouse-sparkle {
+  position: fixed;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffffff, rgba(255,255,255,0));
+  pointer-events: none;
+  z-index: 11;
+  opacity: 0;
+  transform-origin: center center;
+  filter: drop-shadow(0 0 6px #ffffff);
+}
+
+.particle {
+  position: fixed;
+  width: 4px;
+  height: 4px;
+  background: rgba(255,255,255,0.6);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+  animation: float 8s infinite linear;
+}
+
+@keyframes float {
+  0% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(-100vh) translateX(20px); opacity: 0; }
+}
+
+.icons8-roblox {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background-image: url('https://img.icons8.com/ios-filled/50/ffffff/roblox.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.spotify-album-art {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  margin-right: 10px;
+  object-fit: cover;
+}
+
+.spotify-activity {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  padding: 8px;
+  background: rgba(30, 215, 96, 0.1);
+  border-radius: 8px;
+  border-left: 3px solid #1ed760;
+}
